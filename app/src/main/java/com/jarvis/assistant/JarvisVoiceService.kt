@@ -27,6 +27,7 @@ class JarvisVoiceService : Service(),
         const val ACTION_START = "com.jarvis.assistant.action.START"
         const val ACTION_STOP = "com.jarvis.assistant.action.STOP"
         const val ACTION_COMMAND = "com.jarvis.assistant.action.COMMAND"
+        const val ACTION_LISTEN_NOW = "com.jarvis.assistant.action.LISTEN_NOW"
         const val EXTRA_COMMAND = "JARVIS_COMMAND"
 
         private const val CHANNEL_ID = "jarvis_channel"
@@ -74,6 +75,13 @@ class JarvisVoiceService : Service(),
             val command = intent?.getStringExtra(EXTRA_COMMAND)
             if (!command.isNullOrEmpty()) {
                 openMainActivityWithCommand(command)
+            }
+            return START_STICKY
+        }
+
+        if (action == ACTION_LISTEN_NOW) {
+            if (isRunning && wantsListening) {
+                startCommandListening()
             }
             return START_STICKY
         }
